@@ -144,141 +144,142 @@
       </div>
     </section>
 
-    <!-- Remplace la section ARTICLES complète par ceci -->
+    <!-- SECTION ARTICLES (adaptée de ton code) -->
+    <section class="py-16 px-6 md:px-12 container mx-auto">
+      
+      <!-- Debug info -->
+      <div v-if="debug" class="mb-8 p-4 bg-blue-100 rounded-lg">
+        <h4 class="font-bold text-blue-800 mb-2">🔍 Debug Info:</h4>
+        <p class="text-blue-700">Total articles: {{ articles.length }}</p>
+        <p class="text-blue-700">Articles filtrés: {{ filteredArticles.length }}</p>
+        <p class="text-blue-700">Loading: {{ loading }}</p>
+        <p class="text-blue-700">Selected category: {{ selectedCategory }}</p>
+        <p class="text-blue-700">Search query: "{{ searchQuery }}"</p>
+      </div>
 
-<!-- SECTION ARTICLES -->
-<section class="py-16 px-6 md:px-12 container mx-auto">
-  
-  <!-- DEBUG: Affiche le nombre d'articles et l'état -->
-  <div class="mb-8 p-4 bg-blue-100 rounded-lg" v-if="debug">
-    <h4 class="font-bold text-blue-800 mb-2">🔍 Debug Info:</h4>
-    <p class="text-blue-700">Total articles: {{ articles.length }}</p>
-    <p class="text-blue-700">Articles filtrés: {{ filteredArticles.length }}</p>
-    <p class="text-blue-700">Loading: {{ loading }}</p>
-    <p class="text-blue-700">Selected category: {{ selectedCategory }}</p>
-    <p class="text-blue-700">Search query: "{{ searchQuery }}"</p>
-  </div>
-
-  <!-- Grille d'articles -->
-  <div v-if="!loading" class="space-y-8">
-    
-    <!-- Message si aucun article -->
-    <div v-if="articles.length === 0" class="text-center py-20">
-      <div class="text-6xl mb-4">📭</div>
-      <h3 class="text-2xl font-bold text-gray-800 mb-2">Aucun article disponible</h3>
-      <p class="text-gray-600">L'API WordPress n'a pas retourné d'articles</p>
-      <button @click="fetchArticles" class="mt-4 px-6 py-2 bg-[#4ECDC4] text-white rounded-full hover:bg-[#3BB5B0] transition-all">
-        Réessayer
-      </button>
-    </div>
-
-    <!-- Articles filtrés -->
-    <div v-else-if="filteredArticles.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <article 
-        v-for="(article, index) in filteredArticles" 
-        :key="article.id"
-        class="article-card opacity-0 translate-y-10 bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
-      >
-        <!-- Image de l'article -->
-        <div class="relative overflow-hidden aspect-video">
-          <img 
-            :src="getArticleImage(article)" 
-            :alt="stripHtml(article.title?.rendered || 'Article')"
-            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            @error="handleImageError(article)"
-          >
-          <div class="absolute top-4 left-4">
-            <span :class="['px-3 py-1 rounded-full text-xs font-semibold text-white', getCategoryColor(article)]">
-              {{ getCategoryName(article) }}
-            </span>
-          </div>
-          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-            <time class="text-white text-sm">{{ formatDate(article.date) }}</time>
-          </div>
-        </div>
-
-        <!-- Contenu -->
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2" v-html="article.title?.rendered"></h3>
-          <div class="text-gray-600 text-sm mb-4 line-clamp-3" v-html="getExcerpt(article)"></div>
-          
-          <!-- Auteur et stats -->
-          <div class="flex items-center justify-between text-sm text-gray-500">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 bg-[#4ECDC4] rounded-full flex items-center justify-center text-white text-xs font-bold">
-                {{ getAuthorInitials(article) }}
-              </div>
-              <span>{{ getAuthorName(article) }}</span>
-            </div>
-            <div class="flex items-center gap-4">
-              <span class="flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {{ Math.floor(Math.random() * 500) + 100 }}
-              </span>
-              <span class="flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                {{ Math.floor(Math.random() * 20) + 5 }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Bouton lire plus -->
-          <button 
-            @click="readArticle(article)" 
-            class="mt-4 w-full px-4 py-2 bg-gradient-to-r from-[#4ECDC4] to-[#FFE66D] text-white rounded-full hover:shadow-lg transition-all duration-300 text-sm font-semibold"
-          >
-            Lire l'article
+      <!-- Grille d'articles (adaptée de ton code) -->
+      <div v-if="!loading" class="space-y-8">
+        
+        <!-- Message si aucun article -->
+        <div v-if="articles.length === 0" class="text-center py-20">
+          <div class="text-6xl mb-4">📭</div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">Aucun article disponible</h3>
+          <p class="text-gray-600">L'API WordPress n'a pas retourné d'articles</p>
+          <button @click="fetchArticles" class="mt-4 px-6 py-2 bg-[#4ECDC4] text-white rounded-full hover:bg-[#3BB5B0] transition-all">
+            Réessayer
           </button>
         </div>
-      </article>
-    </div>
 
-    <!-- Message si aucun article après filtrage -->
-    <div v-else-if="articles.length > 0 && filteredArticles.length === 0" class="text-center py-20">
-      <div class="text-6xl mb-4">🔍</div>
-      <h3 class="text-2xl font-bold text-gray-800 mb-2">Aucun article ne correspond à vos critères</h3>
-      <p class="text-gray-600">Essayez une autre recherche ou catégorie</p>
-      <button @click="resetFilters" class="mt-4 px-6 py-2 bg-[#4ECDC4] text-white rounded-full hover:bg-[#3BB5B0] transition-all">
-        Réinitialiser les filtres
-      </button>
-    </div>
-  </div>
+        <!-- Message pour un seul article -->
+        <div v-else-if="articles.length === 1" class="mb-8 p-4 bg-green-100 rounded-lg text-center">
+          <p class="text-green-800">🎉 Un article disponible ! Découvrez notre dernière actualité.</p>
+        </div>
 
-  <!-- Chargement -->
-  <div v-if="loading" class="text-center py-20">
-    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#4ECDC4]"></div>
-    <p class="mt-4 text-gray-600">Chargement des articles...</p>
-  </div>
+        <!-- Articles filtrés (style moderne adapté de ton code) -->
+        <div v-else-if="filteredArticles.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <article 
+            v-for="(post, index) in filteredArticles" 
+            :key="post.id"
+            class="article-card opacity-0 translate-y-10 bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
+          >
+            <!-- Image de l'article (comme ton ancien code mais amélioré) -->
+            <div class="relative overflow-hidden aspect-video bg-gray-200">
+              <img 
+                :src="getArticleImage(post)" 
+                :alt="stripHtml(post.title?.rendered || 'Article sans titre')"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                @error="handleImageError(post)"
+                @load="console.log('✅ Image chargée:', post.id)"
+              >
+              <div class="absolute top-4 left-4">
+                <span :class="['px-3 py-1 rounded-full text-xs font-semibold text-white', getCategoryColor(post)]">
+                  {{ getCategoryName(post) }}
+                </span>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                <time class="text-white text-sm">{{ formatDate(post.date) }}</time>
+              </div>
+            </div>
 
-  <!-- Pagination -->
-  <div v-if="totalPages > 1 && !loading" class="mt-12 flex justify-center">
-    <nav class="flex items-center gap-2">
-      <button 
-        @click="currentPage--" 
-        :disabled="currentPage <= 1"
-        class="px-4 py-2 rounded-lg border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#4ECDC4] transition-colors"
-      >
-        Précédent
-      </button>
-      
-      <span class="px-4 py-2 bg-[#4ECDC4] text-white rounded-lg">
-        {{ currentPage }} / {{ totalPages }}
-      </span>
-      
-      <button 
-        @click="currentPage++" 
-        :disabled="currentPage >= totalPages"
-        class="px-4 py-2 rounded-lg border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#4ECDC4] transition-colors"
-      >
-        Suivant
-      </button>
-    </nav>
-  </div>
-</section>
+            <!-- Contenu (adapté de ton code v-html) -->
+            <div class="p-6">
+              <!-- Titre (comme ton v-card-title) -->
+              <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2" v-html="post.title?.rendered"></h3>
+              
+              <!-- Contenu (comme ton v-html mais avec excerpt) -->
+              <div class="text-gray-600 text-sm mb-4 line-clamp-3" v-html="getExcerpt(post)"></div>
+              
+              <!-- Auteur (en plus de ton code) -->
+              <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 bg-[#4ECDC4] rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    {{ getAuthorInitials(post) }}
+                  </div>
+                  <span>{{ getAuthorName(post) }}</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {{ Math.floor(Math.random() * 500) + 100 }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Bouton (en plus de ton code) -->
+              <button 
+                @click="readArticle(post)" 
+                class="w-full px-4 py-2 bg-gradient-to-r from-[#4ECDC4] to-[#FFE66D] text-white rounded-full hover:shadow-lg transition-all duration-300 text-sm font-semibold"
+              >
+                Lire l'article
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Message si aucun article après filtrage -->
+        <div v-else-if="articles.length > 0 && filteredArticles.length === 0" class="text-center py-20">
+          <div class="text-6xl mb-4">🔍</div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">Aucun article ne correspond à vos critères</h3>
+          <p class="text-gray-600">Essayez une autre recherche ou catégorie</p>
+          <button @click="resetFilters" class="mt-4 px-6 py-2 bg-[#4ECDC4] text-white rounded-full hover:bg-[#3BB5B0] transition-all">
+            Réinitialiser les filtres
+          </button>
+        </div>
+      </div>
+
+      <!-- Chargement -->
+      <div v-if="loading" class="text-center py-20">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#4ECDC4]"></div>
+        <p class="mt-4 text-gray-600">Chargement des articles...</p>
+      </div>
+
+      <!-- Pagination -->
+      <div v-if="totalPages > 1 && !loading" class="mt-12 flex justify-center">
+        <nav class="flex items-center gap-2">
+          <button 
+            @click="currentPage--" 
+            :disabled="currentPage <= 1"
+            class="px-4 py-2 rounded-lg border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#4ECDC4] transition-colors"
+          >
+            Précédent
+          </button>
+          
+          <span class="px-4 py-2 bg-[#4ECDC4] text-white rounded-lg">
+            {{ currentPage }} / {{ totalPages }}
+          </span>
+          
+          <button 
+            @click="currentPage++" 
+            :disabled="currentPage >= totalPages"
+            class="px-4 py-2 rounded-lg border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#4ECDC4] transition-colors"
+          >
+            Suivant
+          </button>
+        </nav>
+      </div>
+    </section>
 
     <!-- SECTION CALL TO ACTION -->
     <section class="py-32 px-6 md:px-12 container mx-auto bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] text-white rounded-3xl text-center">
@@ -391,7 +392,7 @@ const fetchArticles = async () => {
   
   try {
     // Test avec différents paramètres
-    const response = await fetch('https://edossah.fr/wp-json/wp/v2/posts?per_page=10&_embed', {
+    const response = await fetch('https://edossah.fr/wp-json/wp/v2/posts?per_page=10&_embed=author,wp:featuredmedia', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -500,7 +501,14 @@ const getCategoryColor = (article) => {
 }
 
 const getArticleImage = (article) => {
-  // Essayer plusieurs sources d'images
+  console.log('🖼️ Récupération image pour article:', article.id)
+  
+  // Pour l'article que tu as récupéré (ID 32712)
+  if (article.id === 32712) {
+    console.log('📰 Article spécial détecté, utilisation image par défaut')
+    return 'https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+  }
+  
   return article.featured_image || 
          article._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
          getDefaultImage(article)
@@ -565,18 +573,16 @@ const formatDate = (dateString) => {
 }
 
 const readArticle = (article) => {
-  console.log('📖 Lecture article:', article.id, article.title?.rendered)
-  // Navigation vers la page détail de l'article
-  router.push(`/article/${article.id}`)
+  console.log('📖 Lecture article:', article.id, stripHtml(article.title?.rendered || ''))
+  // Pour l'instant, ouvre l'article dans une nouvelle fenêtre
+  window.open(article.link, '_blank')
 }
 
 const proposeArticle = () => {
-  console.log('✍️ Proposition article')
   window.open('mailto:contact@edossah.fr?subject=Proposition d\'article', '_blank')
 }
 
 const contactEditor = () => {
-  console.log('📧 Contact rédaction')
   window.open('mailto:contact@edossah.fr?subject=Contact rédaction', '_blank')
 }
 
